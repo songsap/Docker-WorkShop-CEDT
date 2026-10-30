@@ -6,3 +6,6 @@
 # here, or the image will build without seed data paths being reachable.
 #
 # (Fill in the list below.)
+node_modules
+.git
+.env
