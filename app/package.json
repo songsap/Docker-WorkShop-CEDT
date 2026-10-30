@@ -13,5 +13,8 @@
   "dependencies": {
     "express": "^4.19.2",
     "pg": "^8.11.5"
+  },
+  "overrides": {
+    "tar": "^7.5.19"
   }
 }
