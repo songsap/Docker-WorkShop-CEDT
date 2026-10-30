@@ -6,7 +6,7 @@
 # =============================================================================
 
 # Step 4a: Builder base image
-FROM node:20.11-slim AS builder
+FROM node:20-bookworm-slim AS builder
 
 WORKDIR /app
 
@@ -22,7 +22,11 @@ COPY app/ ./
 # =============================================================================
 
 # Step 4d: Runtime base image
-FROM node:20.11-slim
+FROM node:20-bookworm-slim
+
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
