@@ -1,8 +1,7 @@
-
 # syntax=docker/dockerfile:1.7
 
 # =============================================================================
-# Builder stage — installs production dependencies only, on a fresh Node base.
+# Builder stage — installs production dependencies only.
 # =============================================================================
 
 # Step 4a: Builder base image
@@ -18,7 +17,7 @@ RUN npm ci --omit=dev
 COPY app/ ./
 
 # =============================================================================
-# Runtime stage — slim final image. Nothing from builder's caches leaks in.
+# Runtime stage — minimal production image.
 # =============================================================================
 
 # Step 4d: Runtime base image
@@ -27,6 +26,10 @@ FROM node:20-bookworm-slim
 RUN apt-get update \
     && apt-get upgrade -y \
     && rm -rf /var/lib/apt/lists/*
+
+# Remove npm and its bundled dependencies, including vulnerable tar
+RUN rm -rf /usr/local/lib/node_modules/npm \
+    && rm -f /usr/local/bin/npm /usr/local/bin/npx
 
 WORKDIR /app
 
